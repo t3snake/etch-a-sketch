@@ -37,6 +37,7 @@ rainbowToggle.addEventListener('click', (event) => {
 
 const darkenToggle = document.querySelector("#darkenmode");
 let darkenFlag = false;
+let darkenCount = 0;
 
 darkenToggle.addEventListener('click', (event) => {
     let btn = event.target;
@@ -54,11 +55,17 @@ function clickCell(event) {
 
     if (rainbowFlag){
         div.style.backgroundColor = colorRainbow[Math.floor(Math.random()*100)%7];
-        return;
+    } else if (darkenFlag) {
+        div.style.backgroundColor = "rgba(0, 0, 0, " + darkenCount/10 + ")";
+        darkenCount += 1
+        if (darkenCount > 10) darkenCount = 0;
+    } else{
+        div.style.background = "";
+        div.style.backgroundColor = "";
+        div.removeAttribute("class");
+        div.classList.add(colorBlack);
     }
-    div.style.backgroundColor = "";
-    div.removeAttribute("class");
-    div.classList.add(colorBlack);
+    
 }
 
 function hoverCell(event) {
