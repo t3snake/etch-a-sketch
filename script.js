@@ -37,7 +37,6 @@ rainbowToggle.addEventListener('click', (event) => {
 
 const darkenToggle = document.querySelector("#darkenmode");
 let darkenFlag = false;
-let darkenCount = 0;
 
 darkenToggle.addEventListener('click', (event) => {
     let btn = event.target;
@@ -51,14 +50,15 @@ darkenToggle.addEventListener('click', (event) => {
   });
 
 function clickCell(event) {
-    let div = event.target;
+    let div = event.currentTarget;
+    div.clickCount = (div.clickCount || 0);
 
     if (rainbowFlag){
         div.style.backgroundColor = colorRainbow[Math.floor(Math.random()*100)%7];
     } else if (darkenFlag) {
-        div.style.backgroundColor = "rgba(0, 0, 0, " + darkenCount/10 + ")";
-        darkenCount += 1
-        if (darkenCount > 10) darkenCount = 0;
+        div.style.backgroundColor = "rgba(0, 0, 0, " + div.clickCount/10 + ")";
+        div.clickCount += 1;
+        if (div.clickCount > 10) div.clickCount = 0;
     } else{
         div.style.background = "";
         div.style.backgroundColor = "";
