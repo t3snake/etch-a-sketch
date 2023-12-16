@@ -21,8 +21,42 @@ sizeBtn.addEventListener("click", () => {
     }
 });
 
+const rainbowToggle = document.querySelector('#rainbowmode');
+let rainbowFlag = false;
+
+rainbowToggle.addEventListener('click', (event) => {
+  let btn = event.target;
+  rainbowFlag = !rainbowFlag;
+  btn.classList.toggle(colorGray);
+
+  if (rainbowFlag) {
+    darkenFlag = false;
+    darkenToggle.classList.remove(colorGray);
+  }
+});
+
+const darkenToggle = document.querySelector("#darkenmode");
+let darkenFlag = false;
+
+darkenToggle.addEventListener('click', (event) => {
+    let btn = event.target;
+    darkenFlag = !darkenFlag;
+    btn.classList.toggle(colorGray);
+  
+    if (darkenFlag) {
+        rainbowFlag = false;
+        rainbowToggle.classList.remove(colorGray);
+    }
+  });
+
 function clickCell(event) {
     let div = event.target;
+
+    if (rainbowFlag){
+        div.style.backgroundColor = colorRainbow[Math.floor(Math.random()*100)%7];
+        return;
+    }
+    div.style.backgroundColor = "";
     div.removeAttribute("class");
     div.classList.add(colorBlack);
 }
@@ -47,13 +81,11 @@ function updateGrid() {
     let canvas = document.querySelector(".canvas");
     clearGrid(canvas);
     let positionInfo = canvas.getBoundingClientRect();
-    let size = positionInfo.height / gridSize;
-    console.log(size);
+    let size = (positionInfo.height - 8) / gridSize;
 
     for (let i = 0; i < gridSize; i++){
         for(let j = 0; j < gridSize; j++){
             let childDiv = createCell(size);
-            console.log(childDiv.className);
             canvas.appendChild(childDiv);
         }
     }
